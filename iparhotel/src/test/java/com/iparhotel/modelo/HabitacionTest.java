@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
 
+import com.iparhotel.excepciones.ReservaException;
+
 class HabitacionTest {
 
 	private static BigDecimal euros(String valor) {
@@ -70,8 +72,8 @@ class HabitacionTest {
 	@Test
 	void nochesMenoresQueUnoNoSonValidas() {
 		Habitacion h = new Individual(7L, "102", 1, euros("60"), true);
-		assertThrows(IllegalArgumentException.class, () -> h.calcularPrecio(0));
-		assertThrows(IllegalArgumentException.class, () -> h.calcularPrecio(-2));
+		assertThrows(ReservaException.class, () -> h.calcularPrecio(0));
+		assertThrows(ReservaException.class, () -> h.calcularPrecio(-2));
 	}
 
 	@Test

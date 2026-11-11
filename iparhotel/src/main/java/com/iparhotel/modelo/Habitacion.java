@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
+import com.iparhotel.excepciones.ReservaException;
+
 /**
  * Habitacion generica del hotel. Cada tipo concreto (Individual, Doble, Suite)
  * decide como se calcula el precio de una estancia.
@@ -42,7 +44,7 @@ public abstract class Habitacion {
 
 	protected static void validarNoches(int noches) {
 		if (noches < 1) {
-			throw new IllegalArgumentException("El numero de noches debe ser al menos 1 y es " + noches);
+			throw new ReservaException("El numero de noches debe ser al menos 1 y es " + noches);
 		}
 	}
 
