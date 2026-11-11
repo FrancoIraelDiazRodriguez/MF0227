@@ -1,0 +1,31 @@
+:root { --verde: #2f6b4f; --verde-claro: #e7f1ec; --rojo: #a33a2c; --gris: #6b6b6b; --borde: #d9d9d9; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: #222; background: #fafaf7; }
+a { color: var(--verde); }
+.cabecera { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center;
+  padding: .8rem 1.5rem; background: var(--verde); color: #fff; }
+.cabecera a, .cabecera .enlace { color: #fff; text-decoration: none; margin-left: 1rem; }
+.cabecera a:hover, .cabecera .enlace:hover { text-decoration: underline; }
+.marca { font-weight: 700; font-size: 1.3rem; margin-left: 0 !important; }
+.usuario { margin-left: 1rem; opacity: .9; }
+.en-linea { display: inline; }
+.enlace { background: none; border: none; font: inherit; cursor: pointer; padding: 0; }
+.contenedor { max-width: 960px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+table { width: 100%; border-collapse: collapse; background: #fff; }
+th, td { padding: .6rem .7rem; border-bottom: 1px solid var(--borde); text-align: left; }
+th { background: var(--verde-claro); }
+.num { text-align: right; }
+tfoot td { font-weight: 700; }
+.boton { display: inline-block; background: var(--verde); color: #fff; border: none; border-radius: 4px;
+  padding: .45rem .9rem; text-decoration: none; cursor: pointer; font: inherit; }
+.boton:hover { filter: brightness(1.1); }
+.formulario { display: flex; flex-direction: column; gap: .4rem; max-width: 360px; }
+.formulario input { padding: .45rem; border: 1px solid var(--borde); border-radius: 4px; font: inherit; }
+.formulario .boton { margin-top: .8rem; align-self: flex-start; }
+.invalido { border-color: var(--rojo) !important; }
+.error-campo { color: var(--rojo); font-size: .9rem; }
+.nota { color: var(--gris); font-size: .9rem; }
+.aviso { padding: .7rem 1rem; border-radius: 4px; }
+.aviso.ok { background: var(--verde-claro); color: var(--verde); }
+.aviso.error { background: #f8e5e2; color: var(--rojo); }
+.pie { text-align: center; color: var(--gris); padding: 1rem; font-size: .9rem; }

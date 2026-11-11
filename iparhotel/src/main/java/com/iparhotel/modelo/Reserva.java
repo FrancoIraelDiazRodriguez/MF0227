@@ -6,19 +6,60 @@ import java.util.Objects;
 
 import com.iparhotel.excepciones.ReservaException;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+
 /**
  * Reserva de una habitacion. El importe NO se recibe nunca de fuera: lo calcula siempre
  * el sistema con {@link Habitacion#calcularPrecio(int)} y se recalcula al cambiar
  * la habitacion o las noches. Por eso no tiene setter ni aparece en el constructor.
+ *
+ * Fase 2: entidad JPA con el usuario que hace la reserva.
  */
+@Entity
+@Table(name = "reservas")
 public class Reserva {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@NotNull
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "habitacion_id")
 	private Habitacion habitacion;
+
+	@NotNull
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "usuario_id")
+	private Usuario usuario;
+
+	@NotNull
+	@Column(nullable = false)
 	private LocalDate fechaEntrada;
+
+	@Min(1)
+	@Column(nullable = false)
 	private int noches;
+
+	@NotNull
+	@Column(nullable = false, precision = 10, scale = 2)
 	private BigDecimal importe;
 
+	/** Solo para JPA. */
+	protected Reserva() {
+	}
+
+	/** Constructor de la fase 1 (sin usuario). */
 	public Reserva(Long id, Habitacion habitacion, LocalDate fechaEntrada, int noches) {
 		if (habitacion == null) {
 			throw new ReservaException("La reserva necesita una habitacion");
@@ -31,6 +72,15 @@ public class Reserva {
 		this.fechaEntrada = fechaEntrada;
 		this.noches = noches;
 		recalcularImporte();
+	}
+
+	/** Constructor de la fase 2: la reserva pertenece a un usuario. */
+	public Reserva(Long id, Habitacion habitacion, Usuario usuario, LocalDate fechaEntrada, int noches) {
+		this(id, habitacion, fechaEntrada, noches);
+		if (usuario == null) {
+			throw new ReservaException("La reserva necesita un usuario");
+		}
+		this.usuario = usuario;
 	}
 
 	private void recalcularImporte() {
@@ -60,6 +110,17 @@ public class Reserva {
 		}
 		this.habitacion = habitacion;
 		recalcularImporte();
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		if (usuario == null) {
+			throw new ReservaException("La reserva necesita un usuario");
+		}
+		this.usuario = usuario;
 	}
 
 	public LocalDate getFechaEntrada() {
@@ -97,7 +158,7 @@ public class Reserva {
 		if (!(o instanceof Reserva otra)) {
 			return false;
 		}
-		return id != null && id.equals(otra.id);
+		return id != null && id.equals(otra.getId());
 	}
 
 	@Override
@@ -105,6 +166,7 @@ public class Reserva {
 		return Objects.hashCode(id);
 	}
 
+	/** No incluye el usuario para no forzar su carga perezosa. */
 	@Override
 	public String toString() {
 		return "Reserva [id=" + id + ", habitacion=" + habitacion.getNumero() + " (" + habitacion.getTipo()

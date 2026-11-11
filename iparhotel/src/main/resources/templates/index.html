@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<head><title>Iparhotel · Habitaciones disponibles</title></head>
+<body>
+<main>
+    <h1>Habitaciones disponibles</h1>
+    <p th:if="${#lists.isEmpty(habitaciones)}">Ahora mismo no hay habitaciones disponibles.</p>
+    <table th:unless="${#lists.isEmpty(habitaciones)}">
+        <thead>
+        <tr><th>Habitación</th><th>Tipo</th><th>Capacidad</th><th class="num">Precio / noche</th><th></th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="h : ${habitaciones}">
+            <td th:text="${h.numero}">101</td>
+            <td th:text="${h.tipo}">Individual</td>
+            <td th:text="${h.capacidad} + (${h.capacidad} == 1 ? ' persona' : ' personas')">1 persona</td>
+            <td class="num" th:text="${#numbers.formatDecimal(h.precioNoche, 1, 'POINT', 2, 'COMMA')} + ' €'">60,00 €</td>
+            <td>
+                <a class="boton" th:href="@{/habitacion/{id}(id=${h.id})}">
+                    <span sec:authorize="isAuthenticated()">Reservar</span>
+                    <span sec:authorize="isAnonymous()">Entrar para reservar</span>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

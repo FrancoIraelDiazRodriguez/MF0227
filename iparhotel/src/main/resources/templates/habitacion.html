@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<head><title>Iparhotel · Reservar habitación</title></head>
+<body>
+<main>
+    <h1 th:text="'Habitación ' + ${habitacion.numero} + ' · ' + ${habitacion.tipo}">Habitación 101</h1>
+    <p>
+        Capacidad: <strong th:text="${habitacion.capacidad}">1</strong> ·
+        Precio por noche: <strong th:text="${#numbers.formatDecimal(habitacion.precioNoche, 1, 'POINT', 2, 'COMMA')} + ' €'">60,00 €</strong>
+    </p>
+
+    <form class="formulario" th:action="@{/habitacion/{id}(id=${habitacion.id})}" th:object="${reserva}" method="post" novalidate>
+        <!-- Errores globales: los de ReservaException que devuelve el servicio -->
+        <p class="aviso error" th:each="e : ${#fields.globalErrors()}" th:text="${e}">Error</p>
+
+        <label for="fechaEntrada">Fecha de entrada</label>
+        <input type="date" id="fechaEntrada" th:field="*{fechaEntrada}" th:errorclass="invalido">
+        <span class="error-campo" th:if="${#fields.hasErrors('fechaEntrada')}" th:errors="*{fechaEntrada}">Error</span>
+
+        <label for="noches">Noches (1 a 14)</label>
+        <input type="number" id="noches" min="1" max="14" th:field="*{noches}" th:errorclass="invalido">
+        <span class="error-campo" th:if="${#fields.hasErrors('noches')}" th:errors="*{noches}">Error</span>
+
+        <p class="nota">El importe lo calcula el hotel según el tipo de habitación.</p>
+        <button type="submit" class="boton">Confirmar reserva</button>
+    </form>
+</main>
+</body>
+</html>

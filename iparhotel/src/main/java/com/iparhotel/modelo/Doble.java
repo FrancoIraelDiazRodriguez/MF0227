@@ -2,7 +2,12 @@ package com.iparhotel.modelo;
 
 import java.math.BigDecimal;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
 /** Habitacion doble. Precio = precioNoche * noches, mas 20 euros por noche si lleva cama supletoria. */
+@Entity
+@DiscriminatorValue("DOBLE")
 public class Doble extends Habitacion {
 
 	public static final BigDecimal SUPLEMENTO_CAMA_NOCHE = new BigDecimal("20.00");

@@ -2,7 +2,12 @@ package com.iparhotel.modelo;
 
 import java.math.BigDecimal;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
 /** Habitacion individual. Precio = precioNoche * noches. */
+@Entity
+@DiscriminatorValue("INDIVIDUAL")
 public class Individual extends Habitacion {
 
 	public Individual() {

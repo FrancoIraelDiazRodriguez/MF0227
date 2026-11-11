@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<head><title>Iparhotel · Administración</title></head>
+<body>
+<main>
+    <h1>Todas las reservas</h1>
+    <p th:if="${#lists.isEmpty(reservas)}">No hay reservas.</p>
+    <table th:unless="${#lists.isEmpty(reservas)}">
+        <thead>
+        <tr><th>#</th><th>Cliente</th><th>Email</th><th>Habitación</th><th>Tipo</th><th>Entrada</th><th>Salida</th><th class="num">Noches</th><th class="num">Importe</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="r : ${reservas}">
+            <td th:text="${r.id}">1</td>
+            <td th:text="${r.nombreUsuario}">Ana López</td>
+            <td th:text="${r.emailUsuario}">ana@iparhotel.com</td>
+            <td th:text="${r.numeroHabitacion}">201</td>
+            <td th:text="${r.tipoHabitacion}">Doble</td>
+            <td th:text="${#temporals.format(r.fechaEntrada, 'dd/MM/yyyy')}">01/12/2026</td>
+            <td th:text="${#temporals.format(r.fechaSalida, 'dd/MM/yyyy')}">04/12/2026</td>
+            <td class="num" th:text="${r.noches}">3</td>
+            <td class="num" th:text="${#numbers.formatDecimal(r.importe, 1, 'POINT', 2, 'COMMA')} + ' €'">270,00 €</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="8">Total</td>
+            <td class="num" th:text="${#numbers.formatDecimal(#aggregates.sum(reservas.![importe]), 1, 'POINT', 2, 'COMMA')} + ' €'">0,00 €</td>
+        </tr>
+        </tfoot>
+    </table>
+</main>
+</body>
+</html>
