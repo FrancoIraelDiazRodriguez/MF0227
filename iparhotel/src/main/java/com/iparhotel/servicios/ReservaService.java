@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.iparhotel.dtos.HabitacionDto;
 import com.iparhotel.dtos.ReservaDto;
 import com.iparhotel.excepciones.ReservaException;
+import com.iparhotel.excepciones.ReservaException.Motivo;
 import com.iparhotel.modelo.Habitacion;
 import com.iparhotel.modelo.Reserva;
 import com.iparhotel.modelo.Usuario;
@@ -18,7 +19,8 @@ import com.iparhotel.repositorios.UsuarioRepository;
 
 /**
  * Reglas de negocio de las reservas. El email del usuario siempre llega de la sesion
- * (lo pasa el controlador), nunca de los datos del formulario.
+ * o del token JWT (lo pasa el controlador), nunca de los datos que envia el cliente.
+ * Lo usan tanto los controladores web (fase 2) como los de la API REST (fase 3).
  */
 @Service
 @Transactional
@@ -94,11 +96,11 @@ public class ReservaService {
 
 	private static void comprobarDisponible(Habitacion habitacion) {
 		if (!habitacion.isDisponible()) {
-			throw new ReservaException("La habitación " + habitacion.getNumero() + " no está disponible");
+			throw new ReservaException(Motivo.HABITACION_NO_DISPONIBLE, "La habitación " + habitacion.getNumero() + " no está disponible");
 		}
 	}
 
 	private static ReservaException noExiste(Long idHabitacion) {
-		return new ReservaException("No existe la habitación " + idHabitacion);
+		return new ReservaException(Motivo.HABITACION_NO_ENCONTRADA, "No existe la habitación " + idHabitacion);
 	}
 }

@@ -13,9 +13,9 @@
 
     <groupId>com.iparhotel</groupId>
     <artifactId>iparhotel</artifactId>
-    <version>2.0.0</version>
+    <version>3.0.0</version>
     <name>Iparhotel</name>
-    <description>Fase 2 - Web de gestion de reservas del hotel rural Iparhotel con Spring Boot</description>
+    <description>Iparhotel - web de gestion (fase 2) y API REST con JWT (fase 3)</description>
 
     <properties>
         <java.version>21</java.version>
@@ -49,6 +49,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <!-- Fase 3: servidor de recursos JWT (incluye Nimbus para firmar y validar tokens) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
