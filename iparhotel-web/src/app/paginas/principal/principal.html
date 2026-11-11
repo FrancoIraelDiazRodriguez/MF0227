@@ -1,0 +1,16 @@
+<h1>Habitaciones disponibles</h1>
+<p class="subtitulo">Elige tu habitación en Iparhotel y resérvala en un momento.</p>
+
+@if (cargando()) {
+  <p>Cargando habitaciones…</p>
+} @else if (error()) {
+  <p class="aviso aviso-error">{{ error() }}</p>
+} @else {
+  <div class="lista">
+    @for (habitacion of habitaciones(); track habitacion.id) {
+      <app-habitacion-fila [habitacion]="habitacion" (reservar)="irAReservar($event)" />
+    } @empty {
+      <p class="aviso">Ahora mismo no hay habitaciones disponibles.</p>
+    }
+  </div>
+}

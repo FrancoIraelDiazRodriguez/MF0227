@@ -1,0 +1,9 @@
+<div class="fila">
+  <span class="numero">{{ habitacion().numero }}</span>
+  <span class="info">
+    <strong>{{ habitacion().tipo }}</strong>
+    <span class="detalle">{{ habitacion().capacidad }} {{ habitacion().capacidad === 1 ? 'persona' : 'personas' }}</span>
+  </span>
+  <span class="precio">{{ habitacion().precioNoche | currency: 'EUR' }} <small>/ noche</small></span>
+  <button type="button" class="boton" (click)="reservar.emit(habitacion())">Reservar</button>
+</div>

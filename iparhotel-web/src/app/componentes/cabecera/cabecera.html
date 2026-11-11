@@ -1,0 +1,12 @@
+<header class="cabecera">
+  <a routerLink="/" class="marca">Iparhotel</a>
+  <nav>
+    <a routerLink="/">Habitaciones</a>
+    @if (jwt.autenticado()) {
+      <span class="usuario">Hola, {{ jwt.nombre() }}</span>
+      <button type="button" class="boton boton-claro" (click)="cerrarSesion()">Cerrar sesión</button>
+    } @else {
+      <a routerLink="/login" class="boton boton-claro">Iniciar sesión</a>
+    }
+  </nav>
+</header>

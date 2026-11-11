@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Iparhotel - Memoria del proyecto</title>
+<style>
+  @page { size: A4; margin: 18mm 17mm 20mm; }
+  :root { --verde: #2f6b4f; --verde-claro: #e7f1ec; --gris: #666; }
+  body { font-family: "DejaVu Sans", Arial, sans-serif; font-size: 10.5pt; line-height: 1.5; color: #222; }
+  h1 { color: var(--verde); font-size: 20pt; margin: 0 0 6mm; border-bottom: 2px solid var(--verde); padding-bottom: 2mm; }
+  h2 { color: var(--verde); font-size: 14pt; margin: 7mm 0 2mm; }
+  h3 { font-size: 11.5pt; margin: 5mm 0 1.5mm; }
+  p { margin: 0 0 2.5mm; text-align: justify; }
+  ul { margin: 0 0 3mm; padding-left: 6mm; }
+  li { margin-bottom: 1mm; }
+  code { font-family: "DejaVu Sans Mono", monospace; font-size: 9pt; background: #f2f2ef; padding: 0 1mm; border-radius: 2px; }
+  .salto { page-break-before: always; }
+  .portada { height: 245mm; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+  .portada .titulo { font-size: 34pt; font-weight: bold; color: var(--verde); margin-bottom: 4mm; }
+  .portada .subtitulo { font-size: 15pt; color: #444; margin-bottom: 20mm; }
+  .portada .datos { font-size: 11.5pt; line-height: 1.9; color: #333; }
+  .portada .barra { width: 60mm; height: 2mm; background: var(--verde); margin: 0 auto 12mm; }
+  figure { margin: 3mm 0 5mm; text-align: center; page-break-inside: avoid; }
+  figure img { max-width: 100%; border: 1px solid #ccc; border-radius: 3px; }
+  figure.diagrama img { border: none; }
+  figcaption { font-size: 9pt; color: var(--gris); margin-top: 1.5mm; font-style: italic; }
+  .dos { display: flex; gap: 4mm; }
+  .dos figure { flex: 1; }
+  pre.terminal { text-align: left; background: #1f2420; color: #d8e8dd; font-family: "DejaVu Sans Mono", monospace; font-size: 8pt;
+    line-height: 1.35; padding: 3mm 4mm; border-radius: 4px; white-space: pre-wrap; word-break: break-all; margin: 0; }
+  .ventana { border-radius: 5px; overflow: hidden; border: 1px solid #333; }
+  .ventana .barra-ventana { background: #3a3f3b; color: #ccc; font-size: 8pt; padding: 1mm 3mm; font-family: Arial, sans-serif; text-align: left; }
+  table { border-collapse: collapse; width: 100%; margin: 2mm 0 4mm; font-size: 9.5pt; }
+  th, td { border: 1px solid #ccc; padding: 1.5mm 2mm; text-align: left; vertical-align: top; }
+  th { background: var(--verde-claro); }
+  .historia { font-size: 9.8pt; line-height: 1.4; border: 1px solid #cfdcd4; border-left: 4px solid var(--verde); border-radius: 3px; padding: 2mm 4mm; margin: 0 0 3mm; page-break-inside: avoid; }
+  .historia .hu { font-weight: bold; color: var(--verde); }
+  .gwt { margin-top: 1.5mm; background: #fafaf7; padding: 2mm 3mm; border-radius: 3px; }
+  .gwt b { color: var(--verde); }
+  .nota { background: #fff8e5; border-left: 4px solid #d8a300; padding: 2mm 3mm; margin: 2mm 0 4mm; font-size: 9.5pt; }
+  .junto { break-inside: avoid; page-break-inside: avoid; }
+  h1, h2, h3 { break-after: avoid; page-break-after: avoid; }
+  .indice li { margin-bottom: 1.5mm; }
+</style>
+</head>
+<body>
+
+<section class="portada">
+  <div class="barra"></div>
+  <div class="titulo">Iparhotel</div>
+  <div class="subtitulo">Gestión de reservas de un hotel rural<br>Memoria del proyecto y análisis y diseño</div>
+  <div class="datos">
+    Módulo MF0227<br>
+    Alumno: Franco Irael Díaz Rodríguez<br>
+    Noviembre de 2026
+  </div>
+</section>
+
+<section class="salto">
+<h1>Índice</h1>
+<ol class="indice">
+  <li>Introducción</li>
+  <li>Análisis: historias de usuario</li>
+  <li>Diseño: diagrama de casos de uso y diagrama de clases</li>
+  <li>Fase 1: modelo orientado a objetos</li>
+  <li>Fase 2: aplicación con Spring Boot</li>
+  <li>Fase 3: API REST con JWT y Angular</li>
+  <li>Pruebas</li>
+  <li>Cómo arrancar el proyecto</li>
+  <li>Conclusiones</li>
+</ol>
+
+<h2>1. Introducción</h2>
+<p>El hotel rural Iparhotel llevaba las reservas de sus habitaciones en una hoja de cálculo y quería pasar a
+una aplicación. En este proyecto he hecho tres cosas, una por cada fase: primero el modelo de clases en Java,
+después una web de gestión con Spring Boot y por último una API REST protegida con JWT y una pequeña
+aplicación en Angular para que los clientes puedan reservar.</p>
+<p>Cada fase se apoya en la anterior. Las clases de la fase 1 son las mismas que luego se guardan en la base de
+datos en la fase 2, y el servicio de reservas de la fase 2 es el que usa la API de la fase 3. Todo está en un
+mismo repositorio de GitHub con dos carpetas: <code>iparhotel</code> (el proyecto Java con Maven) y
+<code>iparhotel-web</code> (el proyecto Angular).</p>
+<p>Para empezar me basé en un proyecto que ya había hecho antes (IparGym, reservas de clases de un gimnasio),
+porque la estructura era muy parecida, y lo adapté al hotel: en vez de plazas en una clase, aquí se reserva
+una habitación entera para unas noches.</p>
+</section>
+
+<section class="salto">
+<h1>2. Análisis: historias de usuario</h1>
+<p>Antes de programar escribí las historias de usuario para tener claro qué tenía que poder hacer cada tipo de
+usuario. Hay tres tipos: el visitante anónimo, el cliente (que ha iniciado sesión) y el administrador del hotel.
+Cada historia tiene un criterio de aceptación en formato Given-When-Then (Dado-Cuando-Entonces).</p>
+
+<div class="historia">
+  <div class="hu">HU-01 · Ver habitaciones disponibles</div>
+  Como <b>visitante</b> quiero ver las habitaciones disponibles con su tipo, capacidad y precio por noche
+  para decidir cuál me interesa.
+  <div class="gwt"><b>Given</b> que en el hotel hay 6 habitaciones y la 202 ya está reservada,<br>
+  <b>When</b> entro en la página principal sin iniciar sesión,<br>
+  <b>Then</b> veo las 5 habitaciones disponibles ordenadas por precio y la 202 no aparece.</div>
+</div>
+
+<div class="historia">
+  <div class="hu">HU-02 · Iniciar sesión</div>
+  Como <b>cliente</b> quiero iniciar sesión con mi email y mi contraseña para poder reservar.
+  <div class="gwt"><b>Given</b> que estoy registrado como ana@iparhotel.com,<br>
+  <b>When</b> escribo una contraseña incorrecta y pulso "Entrar",<br>
+  <b>Then</b> no entro, veo el mensaje "Email o contraseña incorrectos" y la API responde 401.</div>
+</div>
+
+<div class="historia">
+  <div class="hu">HU-03 · Reservar una habitación</div>
+  Como <b>cliente</b> quiero reservar una habitación indicando la fecha de entrada y las noches
+  para asegurarme el alojamiento y saber cuánto me va a costar.
+  <div class="gwt"><b>Given</b> que he iniciado sesión y la Suite 302 (180 € la noche) está disponible,<br>
+  <b>When</b> la reservo para dentro de una semana durante 6 noches,<br>
+  <b>Then</b> se crea la reserva con un importe de 1.017,00 € ((180 × 6 + 50) − 10 %) y la habitación deja de
+  estar disponible.</div>
+</div>
+
+<div class="historia">
+  <div class="hu">HU-04 · Avisar si la habitación ya no está libre</div>
+  Como <b>cliente</b> quiero que la aplicación me avise si la habitación ya no está disponible
+  para no pensar que tengo una reserva que no existe.
+  <div class="gwt"><b>Given</b> que la habitación 101 ya ha sido reservada por otro cliente,<br>
+  <b>When</b> intento reservarla yo,<br>
+  <b>Then</b> la API responde 409 Conflict con el mensaje "La habitación 101 no está disponible" y no se guarda nada.</div>
+</div>
+
+<div class="historia">
+  <div class="hu">HU-05 · Ver todas las reservas (administrador)</div>
+  Como <b>administrador</b> quiero ver todas las reservas del hotel para saber qué habitaciones están ocupadas
+  y cuánto se ha facturado.
+  <div class="gwt"><b>Given</b> que he iniciado sesión como administrador,<br>
+  <b>When</b> entro en <code>/admin</code>,<br>
+  <b>Then</b> veo todas las reservas con el cliente, las fechas y el importe, y el total al final.
+  Si un cliente intenta entrar en <code>/admin</code> le sale "Acceso denegado".</div>
+</div>
+</section>
+
+<section>
+<h1 style="margin-top: 8mm">3. Diseño: diagramas UML</h1>
+<h2>3.1 Diagrama de casos de uso</h2>
+<p>En el diagrama salen los tres actores. El cliente puede hacer todo lo que hace el anónimo y además reservar,
+por eso hay una flecha de herencia (generalización) del cliente al anónimo, y lo mismo del administrador al
+cliente. Al reservar siempre se calcula el importe, así que lo puse como «include».</p>
+<figure class="diagrama"><img src="../capturas/diagrama-casos-uso.svg" style="width: 88%"><figcaption>Figura 1. Diagrama de casos de uso</figcaption></figure>
+
+<h2>3.2 Diagrama de clases (modelo de la fase 1)</h2>
+<p><code>Habitacion</code> es abstracta (está en cursiva) y tiene dos métodos abstractos que cada tipo de
+habitación implementa a su manera. <code>Suite</code> además implementa la interfaz <code>Promocionable</code>
+para el descuento. Una <code>Reserva</code> es de una habitación, y una habitación puede tener muchas reservas.
+Los errores de negocio se lanzan con <code>ReservaException</code>, que hereda de <code>RuntimeException</code>.</p>
+<figure class="diagrama"><img src="../capturas/diagrama-clases.svg" style="width: 100%"><figcaption>Figura 2. Diagrama de clases del modelo de la fase 1</figcaption></figure>
+</section>
+
+<section class="salto">
+<h1>4. Fase 1: modelo orientado a objetos</h1>
+<h3>Qué había que hacer</h3>
+<p>Crear las clases del hotel en Java puro: una jerarquía de habitaciones con una clase abstracta, una
+interfaz para el descuento, la reserva y una excepción propia. Después probar el polimorfismo y los streams
+con un <code>main</code>.</p>
+
+<h3>Qué hice</h3>
+<ul>
+  <li><b>Habitacion</b> (abstracta) con <code>id</code>, <code>numero</code>, <code>capacidad</code>,
+  <code>precioNoche</code> (BigDecimal, porque con double los céntimos salen mal) y <code>disponible</code>.
+  Tiene <code>equals</code> y <code>hashCode</code> por el id y un <code>toString</code>.</li>
+  <li><b>Individual</b>: precio = precioNoche × noches.</li>
+  <li><b>Doble</b>: lo mismo, más 20 € por noche si lleva cama supletoria.</li>
+  <li><b>Suite</b>: precioNoche × noches + 50 € de bienvenida, y a partir de 5 noches un 10 % de descuento
+  con el método <code>default</code> de la interfaz <code>Promocionable</code>.</li>
+  <li><b>Reserva</b>: el importe no tiene setter ni se pasa en el constructor. Lo calcula siempre la propia
+  reserva llamando a <code>habitacion.calcularPrecio(noches)</code>, así nadie puede poner un precio inventado.</li>
+  <li><b>ReservaException</b> hereda de <code>RuntimeException</code> y la lanzo, por ejemplo, si las noches son menos de 1.</li>
+</ul>
+<p>En <code>PruebaPolimorfismo</code> recorro una <code>List&lt;Habitacion&gt;</code> y llamo a
+<code>calcularPrecio(3)</code> y <code>calcularPrecio(6)</code> sin usar <code>instanceof</code> ni
+<code>switch</code>: cada objeto sabe calcular su precio. Con streams saco las disponibles ordenadas por precio
+(<code>filter</code> + <code>sorted</code>) y sumo el importe de las reservas con <code>map</code> + <code>reduce</code>.</p>
+
+<figure>
+<div class="ventana"><div class="barra-ventana">Terminal — java -cp target/classes com.iparhotel.PruebaPolimorfismo</div>
+<pre class="terminal">=== Precio de 3 y 6 noches ===
+Individual 101  3 noches:   180.00 EUR   6 noches:   360.00 EUR
+Doble      201  3 noches:   270.00 EUR   6 noches:   540.00 EUR
+Doble      202  3 noches:   345.00 EUR   6 noches:   690.00 EUR
+Suite      301  3 noches:   500.00 EUR   6 noches:   855.00 EUR
+Individual 102  3 noches:   165.00 EUR   6 noches:   330.00 EUR
+
+=== Habitaciones disponibles por precio/noche ===
+Individual 101  60 EUR/noche
+Doble      201  90 EUR/noche
+Suite      301  150 EUR/noche
+
+=== Reservas ===
+Reserva [id=1, habitacion=101 (Individual), fechaEntrada=2026-11-18, noches=3, importe=180.00]
+Reserva [id=2, habitacion=202 (Doble), fechaEntrada=2026-11-21, noches=2, importe=230.00]
+Reserva [id=3, habitacion=301 (Suite), fechaEntrada=2026-12-01, noches=6, importe=855.00]
+Importe total de las reservas: 1265.00 EUR</pre></div>
+<figcaption>Figura 3. Salida de la prueba de polimorfismo y streams. En la Suite 301 se ve el descuento: 6 noches = 855 € en vez de 950 €.</figcaption>
+</figure>
+
+<div class="junto"><h3>Problemas que tuve</h3>
+<ul>
+  <li>Al principio el símbolo € salía como "?" en la consola, así que lo cambié por "EUR".</li>
+  <li>No tenía claro si el descuento de la suite se aplicaba antes o después de sumar los 50 € de bienvenida.
+  Al final lo apliqué sobre el total.</li>
+</ul></div>
+</section>
+
+<section class="salto">
+<h1>5. Fase 2: aplicación con Spring Boot</h1>
+<h3>Qué había que hacer</h3>
+<p>Convertir el proyecto en una aplicación Spring Boot con base de datos, una web hecha con Thymeleaf
+para ver habitaciones y reservar, y seguridad con Spring Security.</p>
+
+<h3>Qué hice</h3>
+<ul>
+  <li><b>Persistencia:</b> añadí las dependencias (Web MVC, Data JPA, Validation, Thymeleaf, Security, Lombok y
+  el driver de MySQL). Las clases de la fase 1 pasaron a ser entidades JPA. La herencia la mapeé con
+  <code>@Inheritance(strategy = InheritanceType.SINGLE_TABLE)</code>: todas las habitaciones están en la tabla
+  <code>habitaciones</code> y una columna <code>tipo_habitacion</code> dice si es INDIVIDUAL, DOBLE o SUITE.</li>
+  <li>Creé <b>Usuario</b> (email único, contraseña codificada con BCrypt y rol CLIENTE o ADMINISTRADOR) y la reserva
+  ahora tiene un usuario con <code>@ManyToOne</code>.</li>
+  <li><b>Datos de ejemplo</b> con un <code>CommandLineRunner</code>: 6 habitaciones (2 de cada tipo), un administrador
+  y dos clientes, con las contraseñas ya codificadas.</li>
+  <li><b>Repositorios</b> con consultas derivadas: <code>findByDisponibleTrueOrderByPrecioNocheAsc()</code> y
+  <code>findByUsuarioEmailOrderByFechaEntradaAsc(email)</code>.</li>
+  <li><b>ReservaService</b> con las dependencias por constructor y DTOs de entrada y salida. El método
+  <code>reservar</code> comprueba que las noches estén entre 1 y 14, que la fecha sea futura y que la habitación
+  exista y esté disponible. Si algo falla lanza <code>ReservaException</code>. Si todo va bien calcula el importe
+  (polimorfismo otra vez) y marca la habitación como no disponible.</li>
+  <li><b>Vistas Thymeleaf</b> con una plantilla común (<code>layout.html</code>) para la cabecera, el menú y el pie.</li>
+  <li><b>Seguridad:</b> página de login propia, un <code>UserDetailsService</code> que busca el usuario en la base
+  de datos, <code>/admin</code> solo para el administrador y el menú cambia según el usuario con
+  <code>sec:authorize</code>.</li>
+</ul>
+
+<div class="dos">
+  <figure><img src="../capturas/1-inicio.png"><figcaption>Figura 4. Página principal (pública)</figcaption></figure>
+  <figure><img src="../capturas/2-errores.png"><figcaption>Figura 5. Formulario validado con @Valid y BindingResult</figcaption></figure>
+</div>
+<div class="dos">
+  <figure><img src="../capturas/3-mis-reservas.png"><figcaption>Figura 6. Tras reservar, redirección a "Mis reservas" con mensaje flash</figcaption></figure>
+  <figure><img src="../capturas/4-admin.png"><figcaption>Figura 7. Vista del administrador con todas las reservas</figcaption></figure>
+</div>
+
+<div class="junto"><h3>Problemas que tuve</h3>
+<ul>
+  <li>Al tener dos clases con <code>main</code> (la de la fase 1 y la de Spring Boot), Maven no sabía cuál arrancar.
+  Lo arreglé poniendo <code>start-class</code> en el <code>pom.xml</code>.</li>
+  <li>En el <code>equals</code> usaba <code>otra.id</code> y con los objetos "proxy" de Hibernate el campo sale null.
+  Lo cambié por <code>otra.getId()</code>.</li>
+  <li>Al principio mostraba las reservas fuera de la transacción y daba <code>LazyInitializationException</code>. Lo
+  solucioné convirtiendo a DTO dentro del servicio y con <code>@EntityGraph</code> en el repositorio.</li>
+</ul></div>
+</section>
+
+<section class="salto">
+<h1>6. Fase 3: API REST con JWT y Angular</h1>
+<h2>6.1 API REST</h2>
+<p>Hice tres controladores con <code>@RestController</code> bajo <code>/api/v2</code> que usan el mismo
+<code>ReservaService</code> de la fase 2, así no tuve que repetir las reglas.</p>
+<table>
+  <tr><th>Método y ruta</th><th>Acceso</th><th>Respuesta</th></tr>
+  <tr><td><code>GET /api/v2/habitaciones</code></td><td>Público</td><td>Habitaciones disponibles</td></tr>
+  <tr><td><code>POST /api/v2/usuarios/login</code></td><td>Público</td><td><code>{"accessToken": "...", "tokenType": "Bearer"}</code> o 401</td></tr>
+  <tr><td><code>POST /api/v2/reservas</code></td><td>Con token</td><td>201 Created, 400 datos no válidos, 404 no existe, 409 no disponible</td></tr>
+</table>
+<p>El token es un JWT firmado con HS256. El <i>subject</i> es el email y lleva los claims <code>nombre</code> y
+<code>rol</code>. El secreto está en <code>application.properties</code> pero se lee de la variable de entorno
+<code>JWT_SECRETO</code>, para no subirlo a GitHub. En la seguridad configuré <code>oauth2ResourceServer</code> con
+JWT y CORS para <code>http://localhost:4200</code>. El usuario de la reserva se saca del token
+(<code>jwt.getSubject()</code>) y no del JSON, así un cliente no puede reservar a nombre de otro.</p>
+<p>Como la web de la fase 2 sigue funcionando con su login de formulario, hice dos cadenas de seguridad:
+una para <code>/api/**</code> (sin sesión, con token) y otra para la web.</p>
+
+<figure>
+<div class="ventana"><div class="barra-ventana">Terminal — pruebas de la API con curl</div>
+<pre class="terminal">$ curl -s -X POST localhost:8080/api/v2/usuarios/login -H &quot;Content-Type: application/json&quot; -d &#x27;{&quot;email&quot;:&quot;javier@iparhotel.com&quot;,&quot;password&quot;:&quot;javier123&quot;}&#x27;
+{&quot;accessToken&quot;: &quot;eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJpcGFyaG9...&quot;, &quot;tokenType&quot;: &quot;Bearer&quot;}
+
+# payload del token (base64 decodificado)
+{&quot;iss&quot;:&quot;iparhotel&quot;,&quot;sub&quot;:&quot;javier@iparhotel.com&quot;,&quot;exp&quot;:1794395345,&quot;iat&quot;:1794391745,&quot;nombre&quot;:&quot;Javier Etxeberria&quot;,&quot;rol&quot;:&quot;CLIENTE&quot;}
+
+$ curl -i -X POST localhost:8080/api/v2/reservas -H &quot;Authorization: Bearer $TOKEN&quot; -d &#x27;{&quot;idHabitacion&quot;:1,&quot;fechaEntrada&quot;:&quot;2026-11-12&quot;,&quot;noches&quot;:3}&#x27;
+HTTP/1.1 201 
+{&quot;id&quot;:3,&quot;numeroHabitacion&quot;:&quot;101&quot;,&quot;tipoHabitacion&quot;:&quot;Individual&quot;,&quot;nombreUsuario&quot;:&quot;Javier Etxeberria&quot;,&quot;emailUsuario&quot;:&quot;javier@iparhotel.com&quot;,&quot;fechaEntrada&quot;:&quot;2026-11-12&quot;,&quot;fechaSalida&quot;:&quot;2026-11-15&quot;,&quot;noches&quot;:3,&quot;importe&quot;:165.00}
+
+# la misma habitacion otra vez
+HTTP/1.1 409 
+{&quot;type&quot;:&quot;about:blank&quot;,&quot;title&quot;:&quot;Conflict&quot;,&quot;status&quot;:409,&quot;detail&quot;:&quot;La habitación 101 no está disponible&quot;,&quot;instance&quot;:&quot;/api/v2/reservas&quot;,&quot;motivo&quot;:&quot;HABITACION_NO_DISPONIBLE&quot;}
+
+# noches = 20
+HTTP/1.1 400 
+{&quot;type&quot;:&quot;about:blank&quot;,&quot;title&quot;:&quot;Bad Request&quot;,&quot;status&quot;:400,&quot;detail&quot;:&quot;Los datos enviados no son válidos&quot;,&quot;instance&quot;:&quot;/api/v2/reservas&quot;,&quot;errores&quot;:{&quot;noches&quot;:&quot;Máximo 14 noches&quot;}}
+
+# sin token
+HTTP/1.1 401 
+{&quot;type&quot;:&quot;about:blank&quot;,&quot;title&quot;:&quot;Unauthorized&quot;,&quot;status&quot;:401,&quot;detail&quot;:&quot;Necesitas un token válido para acceder a este recurso.&quot;}</pre></div>
+<figcaption>Figura 8. Llamadas a la API: login, contenido del token, 201, 409, 400 y 401</figcaption>
+</figure>
+
+<h2>6.2 Aplicación Angular</h2>
+<p>Creé el proyecto con Angular CLI (<code>ng new iparhotel-web</code>) y los componentes, servicios y el guard
+con <code>ng generate</code>. Tiene tres rutas:</p>
+<ul>
+  <li><code>''</code> (principal): lista las habitaciones con <code>@for</code>. Cada fila es un componente hijo,
+  <code>habitacion-fila</code>, que recibe la habitación con <code>input()</code> y avisa al padre con
+  <code>output()</code> cuando se pulsa "Reservar".</li>
+  <li><code>login</code>: al entrar guarda el token en <code>JwtService</code>, que tiene dos signals calculados
+  (<code>autenticado</code> y <code>nombre</code>), y vuelve a la principal. La cabecera lee esos signals y
+  muestra "Hola, nombre" y el botón de cerrar sesión.</li>
+  <li><code>reservar/:id</code>: protegida con un guard que manda a <code>/login</code> si no hay sesión. Tiene un
+  formulario de fecha y noches que llama a la API con la cabecera <code>Authorization: Bearer</code> y muestra el
+  importe que calcula el servidor o el error que devuelve.</li>
+</ul>
+<p>Para cargar los datos al abrir una página usé el método del ciclo de vida <code>ngOnInit()</code>.</p>
+
+<div class="dos">
+  <figure><img src="../capturas/a1-principal.png"><figcaption>Figura 9. Principal sin sesión</figcaption></figure>
+  <figure><img src="../capturas/a2-login-error.png"><figcaption>Figura 10. Login con contraseña incorrecta (401)</figcaption></figure>
+</div>
+<div class="dos">
+  <figure><img src="../capturas/a3-principal-con-sesion.png"><figcaption>Figura 11. Con sesión: la cabecera muestra el nombre</figcaption></figure>
+  <figure><img src="../capturas/a4-reservar-error.png"><figcaption>Figura 12. Error que devuelve la API (fecha de hoy)</figcaption></figure>
+</div>
+<figure style="width: 60%; margin-left: auto; margin-right: auto"><img src="../capturas/a5-reservar-ok.png"><figcaption>Figura 13. Reserva confirmada con el importe calculado por la API</figcaption></figure>
+
+<div class="junto"><h3>Problemas que tuve</h3>
+<ul>
+  <li>Sin la variable <code>JWT_SECRETO</code> la aplicación no arranca. Al principio pensé que era un error, pero
+  es a propósito: así no se puede arrancar con un secreto por defecto.</li>
+  <li>El <code>@ControllerAdvice</code> de la web también cogía los errores de la API y los redirigía a una
+  página HTML. Lo limité con <code>basePackages</code> para que cada uno tenga su manejador de errores.</li>
+  <li>Al llamar desde Angular (puerto 4200) a la API (puerto 8080) el navegador bloqueaba la petición por CORS
+  hasta que lo configuré en Spring.</li>
+</ul></div>
+</section>
+
+<section class="salto">
+<h1>7. Pruebas</h1>
+<p>Fui haciendo pruebas en cada fase. En Java uso JUnit 5, Mockito y MockMvc; las pruebas usan una base de datos H2
+en memoria para no necesitar MySQL. En Angular uso las pruebas que trae Angular CLI (Vitest).</p>
+<table>
+  <tr><th>Clase de prueba</th><th>Qué comprueba</th><th>Pruebas</th></tr>
+  <tr><td>HabitacionTest</td><td>Precios de cada tipo, descuento de la suite, equals/hashCode</td><td>11</td></tr>
+  <tr><td>ReservaTest</td><td>Importe calculado por el sistema y ReservaException</td><td>5</td></tr>
+  <tr><td>ReservaServiceTest</td><td>Reglas de reservar() con Mockito (noches, fecha, no disponible...)</td><td>6</td></tr>
+  <tr><td>RepositoriosTest</td><td>Consultas derivadas y SINGLE_TABLE con @DataJpaTest</td><td>2</td></tr>
+  <tr><td>WebSeguridadTest</td><td>Login, /admin solo para administrador, formulario y mensaje flash</td><td>8</td></tr>
+  <tr><td>ApiTest</td><td>Token JWT con sus claims, 201, 400, 401, 404, 409 y CORS</td><td>7</td></tr>
+  <tr><td>Angular (3 ficheros)</td><td>JwtService, guard y componente principal</td><td>7</td></tr>
+</table>
+<p>En total son <b>39 pruebas en Java y 7 en Angular</b>, y todas pasan (<code>mvn test</code> y <code>ng test</code>).</p>
+
+<h1 style="margin-top: 10mm">8. Cómo arrancar el proyecto</h1>
+<ol>
+  <li>Tener MySQL en marcha (la base de datos <code>iparhotel</code> se crea sola). Usuario y contraseña por defecto
+  <code>root</code>/<code>root</code>, se cambian con las variables <code>DB_USER</code> y <code>DB_PASSWORD</code>.</li>
+  <li>Definir el secreto del token (32 caracteres o más): <code>JWT_SECRETO=un-secreto-largo-de-al-menos-32-caracteres</code></li>
+  <li>En la carpeta <code>iparhotel</code>: <code>mvn spring-boot:run</code>. La web está en http://localhost:8080.</li>
+  <li>En la carpeta <code>iparhotel-web</code>: <code>npm install</code> y <code>ng serve</code>. Angular está en http://localhost:4200.</li>
+</ol>
+<table>
+  <tr><th>Usuario</th><th>Contraseña</th><th>Rol</th></tr>
+  <tr><td>admin@iparhotel.com</td><td>admin123</td><td>ADMINISTRADOR</td></tr>
+  <tr><td>ana@iparhotel.com</td><td>ana123</td><td>CLIENTE</td></tr>
+  <tr><td>javier@iparhotel.com</td><td>javier123</td><td>CLIENTE</td></tr>
+</table>
+
+<div class="junto"><h1 style="margin-top: 10mm">9. Conclusiones</h1>
+<p>Lo que más me ha gustado es ver cómo el mismo modelo de la fase 1 se ha ido usando en todo el proyecto: el
+método <code>calcularPrecio</code> que hice al principio es el que calcula el importe que sale en la web y en
+Angular. También he entendido mejor la diferencia entre la seguridad con sesión (web con Thymeleaf) y con token
+(API con JWT), porque al final he tenido que tener las dos a la vez.</p>
+<p>Lo que más me costó fue la parte de seguridad y los errores de CORS. Si tuviera más tiempo añadiría poder
+cancelar reservas, comprobar que no se solapen las fechas (ahora la habitación se marca como no disponible
+directamente) y una página de "Mis reservas" en Angular.</p></div>
+</section>
+
+</body>
+</html>

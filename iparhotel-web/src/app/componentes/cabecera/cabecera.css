@@ -1,0 +1,28 @@
+.cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1.5rem;
+  background: var(--verde);
+  color: #fff;
+}
+.marca {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #fff;
+  text-decoration: none;
+}
+nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+nav a:not(.boton) {
+  color: #fff;
+  text-decoration: none;
+}
+.usuario {
+  opacity: 0.9;
+}
