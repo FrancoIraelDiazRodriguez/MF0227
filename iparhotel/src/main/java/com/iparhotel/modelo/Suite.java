@@ -2,10 +2,15 @@ package com.iparhotel.modelo;
 
 import java.math.BigDecimal;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
 /**
  * Suite. Precio = precioNoche * noches + 50 euros fijos de bienvenida.
  * A partir de 5 noches se descuenta un 10 % del total con el metodo default de {@link Promocionable}.
  */
+@Entity
+@DiscriminatorValue("SUITE")
 public class Suite extends Habitacion implements Promocionable {
 
 	public static final BigDecimal CARGO_BIENVENIDA = new BigDecimal("50.00");
