@@ -1,0 +1,31 @@
+.fila {
+  display: grid;
+  grid-template-columns: 4rem 1fr auto auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  background: #fff;
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+}
+.numero {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--verde);
+}
+.info {
+  display: flex;
+  flex-direction: column;
+}
+.detalle,
+small {
+  color: var(--gris);
+}
+.precio {
+  font-weight: 600;
+}
+@media (max-width: 520px) {
+  .fila {
+    grid-template-columns: 3rem 1fr;
+  }
+}

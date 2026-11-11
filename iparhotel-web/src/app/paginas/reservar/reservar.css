@@ -1,0 +1,11 @@
+.volver {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+.importe {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.aviso p {
+  margin: 0.3rem 0;
+}

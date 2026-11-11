@@ -1,0 +1,44 @@
+<a routerLink="/" class="volver">‹ Volver a las habitaciones</a>
+
+@if (habitacion(); as h) {
+  <section class="tarjeta">
+    <h1>Habitación {{ h.numero }} · {{ h.tipo }}</h1>
+    <p>Capacidad: <strong>{{ h.capacidad }}</strong> · Precio por noche: <strong>{{ h.precioNoche | currency: 'EUR' }}</strong></p>
+
+    @if (reserva(); as r) {
+      <div class="aviso aviso-ok" role="status">
+        <p><strong>¡Reserva confirmada!</strong></p>
+        <p>
+          Del {{ r.fechaEntrada | date: 'dd/MM/yyyy' }} al {{ r.fechaSalida | date: 'dd/MM/yyyy' }}
+          ({{ r.noches }} {{ r.noches === 1 ? 'noche' : 'noches' }})
+        </p>
+        <p class="importe">Importe: {{ r.importe | currency: 'EUR' }}</p>
+      </div>
+    } @else {
+      @if (error()) {
+        <p class="aviso aviso-error" role="alert">{{ error() }}</p>
+      }
+
+      <form [formGroup]="formulario" (ngSubmit)="enviar()" novalidate>
+        <label for="fechaEntrada">Fecha de entrada</label>
+        <input id="fechaEntrada" type="date" formControlName="fechaEntrada" [class.invalido]="invalido('fechaEntrada')" />
+        @if (invalido('fechaEntrada')) {
+          <span class="error-campo">Indica la fecha de entrada.</span>
+        }
+
+        <label for="noches">Noches (1 a 14)</label>
+        <input id="noches" type="number" min="1" max="14" formControlName="noches" [class.invalido]="invalido('noches')" />
+        @if (invalido('noches')) {
+          <span class="error-campo">Entre 1 y 14 noches.</span>
+        }
+
+        <p class="nota">El importe lo calcula el hotel según el tipo de habitación.</p>
+        <button type="submit" class="boton" [disabled]="enviando()">{{ enviando() ? 'Reservando…' : 'Confirmar reserva' }}</button>
+      </form>
+    }
+  </section>
+} @else if (error()) {
+  <p class="aviso aviso-error">{{ error() }}</p>
+} @else {
+  <p>Cargando…</p>
+}
